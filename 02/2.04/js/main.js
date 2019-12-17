@@ -18,6 +18,7 @@ let svg = d3.select("#chart-area").append("svg")
 	.attr("width", 500)
 	.attr("height", 500)
 	.style("stroke", "black")
+	.style("stroke-width", 1)
 
 let circle = svg.append("circle")
 	.attr("cx", 100)
