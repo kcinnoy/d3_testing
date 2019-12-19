@@ -76,7 +76,7 @@ d3.json("data/revenues.json").then(function(data){
             .attr("x", function(d){ return x(d.month) })
             .attr("height", function(d){ return height - y(d.revenue); })
             .attr("width", x.bandwidth)
-            .attr("fill", "grey");
+            .attr("fill", "blue");
 
     d3.interval(function(){
         console.log("Hello World");
