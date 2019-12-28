@@ -5,6 +5,11 @@ const svg = d3.select('svg')
 const height = +svg.attr('height');
 const width = +svg.attr('width');
 
+eyeRadius = 30;
+eyebrowWidth = 70; 
+eyebrowHeight = 15; 
+eyebrowYOffset = -70;
+
 const g = svg.append('g')
   .attr('transform', `translate(${width/2}, ${height/2})`);
 
@@ -15,17 +20,30 @@ const circle = g.append('circle')
   .attr('fill', 'yellow')
   .attr('stroke', 'black')
 
-const leftEye = g.append('circle')
-  .attr('r', 30)
-  .attr('cy', -70)
+const eyesG = g.append('g')
+  .attr('transform', `translate(0, ${-70})` )
+
+const leftEye = eyesG.append('circle')
+  .attr('r', eyeRadius)
   .attr('cx', -100)
   .attr('fill', 'black');
 
-const rightEye = g.append('circle')
-  .attr('r', 30)
-  .attr('cy', -70)
+const rightEye = eyesG.append('circle')
+  .attr('r', eyeRadius)
   .attr('cx', 100)
   .attr('fill', 'black');
+
+const leftEyebrow = eyesG.append('rect')
+  .attr('x', -100 - eyebrowWidth /2)
+  .attr('y', eyebrowYOffset)
+  .attr('width', eyebrowWidth)
+  .attr('height', eyebrowHeight)
+
+const rightEyebrow = eyesG.append('rect')
+  .attr('x', 100 - eyebrowWidth /2)
+  .attr('y', eyebrowYOffset)
+  .attr('width', eyebrowWidth)
+  .attr('height', eyebrowHeight)
 
 const mouth = g.append('path')
   .attr('d', d3.arc()({
