@@ -6,12 +6,19 @@ const height = +svg.attr('height');
 const width = +svg.attr('width');
 
 const render = data => {
-  
-}
+  const xScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.population)])
+    .range([0,width]);
+
+  svg.selectAll('rect').data(data)
+    .enter().append('rect')
+      .attr('width', d => xScale(d.population))
+      .attr('height', 300)
+};
 
 d3.csv('data.csv').then(data => {
   data.forEach( d => {
     d.population = +d.population;
   });
-  console.log(data);
+  render(data);
 });
