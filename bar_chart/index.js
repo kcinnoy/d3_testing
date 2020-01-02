@@ -7,20 +7,36 @@ const width = +svg.attr('width');
 
 const render = data => {
 
+  const margin = {top: 20, right: 40, bottom: 20, left: 100};
+  const innerHeight = height - (margin.top + margin.bottom);
+  const innerWidth = width - (margin.left + margin.right);
+  const xValue = d => d.population;
+  const yValue = d => d.country;
+
+
   const xScale = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.population)])
-    .range([0,width]);
+    .domain([0, d3.max(data, xValue)])
+    .range([0,innerWidth]);
   
   const yScale = d3.scaleBand()
-    .domain(data.map(d => d.country))
-    .range([0, height]);
+    .domain(data.map(yValue))
+    .range([0, innerHeight])
+    .padding(0.1);
 
-  console.log(yScale.domain())
+  // const yAxis = d3.axisLeft(yScale);
 
-  svg.selectAll('rect').data(data)
+  const g = svg.append('g')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+  
+  // yAxis(g.append('g'));
+  g.append('g').call(d3.axisLeft(yScale));
+  g.append('g').call(d3.axisBottom(xScale))
+    .attr('transform', `translate(0,${innerHeight})`)
+
+  g.selectAll('rect').data(data)
     .enter().append('rect')
-      .attr('y', d => yScale(d.country))
-      .attr('width', d => xScale(d.population))
+      .attr('y', d => yScale(yValue(d)))
+      .attr('width', d => xScale(xValue(d)))
       .attr('height', yScale.bandwidth());
 };
 
