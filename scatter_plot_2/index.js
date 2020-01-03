@@ -10,18 +10,19 @@ const render = data => {
   const margin = {top: 40, right: 40, bottom: 70, left: 100};
   const innerHeight = height - (margin.top + margin.bottom);
   const innerWidth = width - (margin.left + margin.right);
-  const xValue = d => d.population;
-  const yValue = d => d.country;
+  const xValue = d => d.cylinders;
+  const yValue = d => d.horsepower;
 
 
   const xScale = d3.scaleLinear()
     .domain([0, d3.max(data, xValue)])
-    .range([0,innerWidth]);
+    .range([0,innerWidth])
+    .nice();
   
-  const yScale = d3.scaleBand()
+  const yScale = d3.scalePoint()
     .domain(data.map(yValue))
     .range([0, innerHeight])
-    .padding(0.1);
+    .padding(0.7);
 
   // const yAxis = d3.axisLeft(yScale);
 
@@ -39,8 +40,12 @@ const render = data => {
     .tickFormat(xAxisFormat)
     .tickSize(-innerHeight);
 
-  g.append('g').call(d3.axisLeft(yScale))
-    .selectAll('.domain, .tick line')
+  const yAxis = d3.axisLeft(yScale)
+    .tickSize(-innerWidth)
+
+  g.append('g')
+    .call(yAxis)
+    .selectAll('.domain')
       .remove();
 
   const xAxisG = g.append('g').call(xAxis)
@@ -56,11 +61,11 @@ const render = data => {
     .text('Population')
     
 
-  g.selectAll('rect').data(data)
-    .enter().append('rect')
-      .attr('y', d => yScale(yValue(d)))
-      .attr('width', d => xScale(xValue(d)))
-      .attr('height', yScale.bandwidth());
+  g.selectAll('circle').data(data)
+    .enter().append('circle')
+      .attr('cy', d => yScale(yValue(d)))
+      .attr('cx', d => xScale(xValue(d)))
+      .attr('r', 10);
 
   g.append('text')
     .attr('class', 'title')
@@ -70,9 +75,16 @@ const render = data => {
 
 
 
-d3.csv('data.csv').then(data => {
+d3.csv('https://vizhub.com/datasets/curran/auto-mpg.csv')
+  .then(data => {
   data.forEach( d => {
-    d.population = +d.population;
+    d.mpg = +d.mpg;
+    d.cylinders = +d.cylinders;
+    d.displacement = +d.displacement;
+    d.horsepower = +d.horsepower;
+    d.weight = +d.weight;
+    d.acceleration = +d.acceleration;
+    d.year = +d.year;
   });
   render(data);
 });
