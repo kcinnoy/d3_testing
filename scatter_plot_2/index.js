@@ -75,7 +75,7 @@ const render = data => {
 
 
 
-d3.csv('https://vizhub.com/datasets/curran/auto-mpg.csv')
+d3.csv('data.csv')
   .then(data => {
   data.forEach( d => {
     d.mpg = +d.mpg;
