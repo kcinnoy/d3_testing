@@ -33,15 +33,8 @@ const render = data => {
 
   const g = svg.append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
-  
-
-  const xAxisFormat = number => {
-   return d3.format('.2s')(number)
-      .replace('G','B');
-  }
 
   const xAxis = d3.axisBottom(xScale)
-    .tickFormat(xAxisFormat)
     .tickSize(-innerHeight)
     .tickPadding(15);
 
@@ -86,8 +79,6 @@ const render = data => {
     .attr('y', -10)
     .text(title)
 };
-
-
 
 d3.csv('data.csv')
   .then(data => {
