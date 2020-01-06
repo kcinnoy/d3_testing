@@ -10,26 +10,30 @@ const render = data => {
   const margin = {top: 40, right: 40, bottom: 70, left: 100};
   const innerHeight = height - (margin.top + margin.bottom);
   const innerWidth = width - (margin.left + margin.right);
+  
+  const title = 'Cars: Horsepower vs. Cylinders'
+  const circleRadius = 10;
+
   const xValue = d => d.cylinders;
+  const xLabel = 'Cylinders';
+
   const yValue = d => d.horsepower;
+  const yLabel = 'Horsepower';
 
 
   const xScale = d3.scaleLinear()
-    .domain([0, d3.max(data, xValue)])
+    .domain(d3.extent(data, xValue))
     .range([0,innerWidth])
     .nice();
   
-  const yScale = d3.scalePoint()
-    .domain(data.map(yValue))
-    .range([0, innerHeight])
-    .padding(0.7);
+  const yScale = d3.scaleLinear()
+    .domain(d3.extent(data, yValue))
+    .range([0, innerHeight]);
 
-  // const yAxis = d3.axisLeft(yScale);
 
   const g = svg.append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
   
-  // yAxis(g.append('g'));
 
   const xAxisFormat = number => {
    return d3.format('.2s')(number)
@@ -38,16 +42,26 @@ const render = data => {
 
   const xAxis = d3.axisBottom(xScale)
     .tickFormat(xAxisFormat)
-    .tickSize(-innerHeight);
+    .tickSize(-innerHeight)
+    .tickPadding(15);
 
   const yAxis = d3.axisLeft(yScale)
     .tickSize(-innerWidth)
+    .tickPadding(15);
 
-  g.append('g')
-    .call(yAxis)
-    .selectAll('.domain')
-      .remove();
-
+  const yAxisG = g.append('g').call(yAxis);
+    
+  yAxisG.selectAll('.domain').remove();
+  
+  yAxisG.append('text')
+    .attr('class', 'axis-label')
+    .attr('y', -60)
+    .attr('x', -innerHeight / 2)
+    .attr('fill', 'black')
+    .attr('transform', 'rotate(-90)')
+    .attr('text-anchor', 'middle') 
+    .text(yLabel);
+         
   const xAxisG = g.append('g').call(xAxis)
     .attr('transform', `translate(0,${innerHeight})`);
     
@@ -58,19 +72,19 @@ const render = data => {
     .attr('y', 60)
     .attr('x', innerWidth / 2)
     .attr('fill', 'black')
-    .text('Population')
+    .text(xLabel)
     
 
   g.selectAll('circle').data(data)
     .enter().append('circle')
       .attr('cy', d => yScale(yValue(d)))
       .attr('cx', d => xScale(xValue(d)))
-      .attr('r', 10);
+      .attr('r', circleRadius);
 
   g.append('text')
     .attr('class', 'title')
     .attr('y', -10)
-    .text('Top 10 most populous countries')
+    .text(title)
 };
 
 
