@@ -1,0 +1,31 @@
+/* svg {
+	margin: 20px;
+} */
+
+circle {
+	fill: steelblue;
+	opacity: 0.5;
+}
+
+text {
+	font-family: sans-serif;
+}
+
+.tick text {
+	font-size: 1.2em;
+	fill: #635F50;
+}
+
+.tick line {
+	stroke: #C0C0BB;
+}
+
+.axis-label {
+	font-size: 2em;
+	fill: #635F50;
+}
+
+.title {
+	font-size: 2em;
+	fill: black;
+}
