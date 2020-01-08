@@ -82,14 +82,10 @@ const render = data => {
 
 d3.csv('data.csv')
   .then(data => {
+    console.log(data);
   data.forEach( d => {
-    d.mpg = +d.mpg;
-    d.cylinders = +d.cylinders;
-    d.displacement = +d.displacement;
-    d.horsepower = +d.horsepower;
-    d.weight = +d.weight;
-    d.acceleration = +d.acceleration;
-    d.year = +d.year;
+    d.temperature = +d.temperature;
+    d.timestamp = new Date(d.timestamp);
   });
   render(data);
 });
