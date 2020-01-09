@@ -1,5 +1,3 @@
-// import {select} from 'd3';
-// const svg = select('svg')
 
 const svg = d3.select('svg')
 const height = +svg.attr('height');
