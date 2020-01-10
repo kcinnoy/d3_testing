@@ -5,28 +5,29 @@ const width = +svg.attr('width');
 
 const render = data => {
 
-  const margin = {top: 40, right: 40, bottom: 70, left: 100};
+  const margin = {top: 60, right: 40, bottom: 70, left: 100};
   const innerHeight = height - (margin.top + margin.bottom);
   const innerWidth = width - (margin.left + margin.right);
   
   const title = 'Cars: Horsepower vs. Cylinders'
   const circleRadius = 10;
 
-  const xValue = d => d.cylinders;
-  const xLabel = 'Cylinders';
+  const xValue = d => d.timestamp;
+  const xLabel = 'Time';
 
-  const yValue = d => d.horsepower;
-  const yLabel = 'Horsepower';
+  const yValue = d => d.temperature;
+  const yLabel = 'Temperature';
 
 
-  const xScale = d3.scaleLinear()
+  const xScale = d3.scaleTime()
     .domain(d3.extent(data, xValue))
     .range([0,innerWidth])
     .nice();
   
   const yScale = d3.scaleLinear()
     .domain(d3.extent(data, yValue))
-    .range([0, innerHeight]);
+    .range([0, innerHeight])
+    .nice();;
 
 
   const g = svg.append('g')
@@ -42,7 +43,7 @@ const render = data => {
 
   const yAxisG = g.append('g').call(yAxis);
     
-  yAxisG.selectAll('.domain').remove();
+  // yAxisG.selectAll('.domain').remove();
   
   yAxisG.append('text')
     .attr('class', 'axis-label')
@@ -56,7 +57,7 @@ const render = data => {
   const xAxisG = g.append('g').call(xAxis)
     .attr('transform', `translate(0,${innerHeight})`);
     
-  xAxisG.select('.domain').remove();
+  // xAxisG.select('.domain').remove();
   
   xAxisG.append('text')
     .attr('class', 'axis-label')
