@@ -26,7 +26,7 @@ const render = data => {
   
   const yScale = d3.scaleLinear()
     .domain(d3.extent(data, yValue))
-    .range([0, innerHeight])
+    .range([innerHeight,0])
     .nice();;
 
 
@@ -65,13 +65,16 @@ const render = data => {
     .attr('x', innerWidth / 2)
     .attr('fill', 'black')
     .text(xLabel)
-    
+  
+  const lineGenerator = d3.line()
+    .x(d => xScale(xValue(d)))
+    .y(d => yScale(yValue(d)))
+    .curve(d3.curveBasis);
+  
+    g.append('path')
+      .attr('class', 'line-path')
+      .attr('d', lineGenerator(data));
 
-  g.selectAll('circle').data(data)
-    .enter().append('circle')
-      .attr('cy', d => yScale(yValue(d)))
-      .attr('cx', d => xScale(xValue(d)))
-      .attr('r', circleRadius);
 
   g.append('text')
     .attr('class', 'title')

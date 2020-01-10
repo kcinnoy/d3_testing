@@ -7,6 +7,12 @@ circle {
 	opacity: 0.5;
 }
 
+.line-path {
+	fill:	none;
+	stroke: steelblue;
+	stroke-linejoin: round;
+}
+
 text {
 	font-family: sans-serif;
 }
