@@ -8,6 +8,7 @@ circle {
 }
 
 .line-path {
+	fill:	steelblue;
 	stroke: steelblue;
 	stroke-linejoin: round;
 }
