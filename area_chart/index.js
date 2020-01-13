@@ -29,7 +29,6 @@ const render = data => {
     .range([innerHeight,0])
     .nice();;
 
-
   const g = svg.append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
