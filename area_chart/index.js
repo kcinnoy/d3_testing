@@ -12,11 +12,11 @@ const render = data => {
   const title = 'Cars: Horsepower vs. Cylinders'
   const circleRadius = 10;
 
-  const xValue = d => d.timestamp;
-  const xLabel = 'Time';
+  const xValue = d => d.year;
+  const xLabel = 'Year';
 
-  const yValue = d => d.temperature;
-  const yLabel = 'Temperature';
+  const yValue = d => d.population;
+  const yLabel = 'Populatio ';
 
 
   const xScale = d3.scaleTime()
@@ -25,7 +25,7 @@ const render = data => {
    
   
   const yScale = d3.scaleLinear()
-    .domain(d3.extent(data, yValue))
+    .domain([0,d3.max(data, yValue)])
     .range([innerHeight,0])
     .nice();;
 
@@ -85,10 +85,9 @@ const render = data => {
 
 d3.csv('data.csv')
   .then(data => {
-    console.log(data);
   data.forEach( d => {
-    d.temperature = +d.temperature;
-    d.timestamp = new Date(d.timestamp);
+    d.population = +d.population * 1000;
+    d.year = new Date(d.year);
   });
   render(data);
 });
