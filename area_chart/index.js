@@ -37,9 +37,14 @@ const render = data => {
     .tickSize(-innerHeight)
     .tickPadding(15);
 
+  const yAxisTickFormat = number => 
+  d3.format('.1s')(number)
+    .replace('G','B');
+
   const yAxis = d3.axisLeft(yScale)
     .tickSize(-innerWidth)
-    .tickPadding(15);
+    .tickPadding(15)
+    .tickFormat(yAxisTickFormat);
 
   const yAxisG = g.append('g').call(yAxis);
     
@@ -86,7 +91,7 @@ const render = data => {
 d3.csv('data.csv')
   .then(data => {
   data.forEach( d => {
-    d.population = +d.population * 1000;
+    d.population = +d.population;
     d.year = new Date(d.year);
   });
   render(data);
