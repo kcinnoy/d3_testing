@@ -9,14 +9,14 @@ const render = data => {
   const innerHeight = height - (margin.top + margin.bottom);
   const innerWidth = width - (margin.left + margin.right);
   
-  const title = 'Cars: Horsepower vs. Cylinders'
+  const title = 'World Poulation'
   const circleRadius = 10;
 
   const xValue = d => d.year;
   const xLabel = 'Year';
 
   const yValue = d => d.population;
-  const yLabel = 'Populatio ';
+  const yLabel = 'Population';
 
 
   const xScale = d3.scaleTime()
@@ -32,10 +32,21 @@ const render = data => {
   const g = svg.append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+    
+  const areaGenerator = d3.area()
+  .x(d => xScale(xValue(d)))
+  .y0(innerHeight)
+  .y1(d => yScale(yValue(d)))
+  .curve(d3.curveBasis);
+  
+  g.append('path')
+    .attr('class', 'line-path')
+    .attr('d', areaGenerator(data));
+  
   const xAxis = d3.axisBottom(xScale)
-    .ticks(6)
-    .tickSize(-innerHeight)
-    .tickPadding(15);
+  .ticks(6)
+  .tickSize(-innerHeight)
+  .tickPadding(15);
 
   const yAxisTickFormat = number => 
   d3.format('.1s')(number)
@@ -70,21 +81,11 @@ const render = data => {
     .attr('x', innerWidth / 2)
     .attr('fill', 'black')
     .text(xLabel)
-  
-  const areaGenerator = d3.area()
-    .x(d => xScale(xValue(d)))
-    .y0(innerHeight)
-    .y1(d => yScale(yValue(d)))
-    .curve(d3.curveBasis);
-  
-    g.append('path')
-      .attr('class', 'line-path')
-      .attr('d', areaGenerator(data));
 
-
-  g.append('text')
+  svg.append('text')
     .attr('class', 'title')
-    .attr('y', -10)
+    .attr('x', width / 2)
+    .attr('y', 50)
     .text(title)
 };
 
