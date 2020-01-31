@@ -17,9 +17,7 @@ const render = (selection, {fruits}) => {
   circles.enter().append('circle')
       .attr('cx', (d, i) => i * 120 + 60)
       .attr('cy', height / 2)
-      .attr('r', d => radiusScale(d.type))
-      .attr('fill', d => colorScale(d.type));
-  circles
+  .merge(circles)
       .attr('r', d => radiusScale(d.type))
       .attr('fill', d => colorScale(d.type));
   circles.exit().remove();
