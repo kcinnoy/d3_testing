@@ -17,10 +17,15 @@ const render = (selection, {fruits}) => {
   circles.enter().append('circle')
       .attr('cx', (d, i) => i * 120 + 60)
       .attr('cy', height / 2)
-  .merge(circles)
-      .attr('r', d => radiusScale(d.type))
-      .attr('fill', d => colorScale(d.type));
-  circles.exit().remove();
+      .attr('r', 0)
+    .merge(circles)
+      .attr('fill', d => colorScale(d.type))
+    .transition().duration(1000)
+      .attr('r', d => radiusScale(d.type))   
+  circles.exit()
+    .transition().duration(1000)
+      .attr('r', 0)
+    .remove();
 }
 
 const makeFruit = type =>({type});
