@@ -12,15 +12,16 @@ const radiusScale = d3.scaleOrdinal()
   .range([50, 30]);
 
 const render = (selection, {fruits}) => {
-  const circles = selection.selectAll('circle').data(fruits)
+  const circles = selection.selectAll('circle').data(fruits, d => d.id);
     
-  circles.enter().append('circle')
-      .attr('cx', (d, i) => i * 120 + 60)
+  circles.enter().append('circle') 
+      .attr('cx', (d, i) => i * 120 + 60)    
       .attr('cy', height / 2)
       .attr('r', 0)
     .merge(circles)
       .attr('fill', d => colorScale(d.type))
     .transition().duration(1000)
+      .attr('cx', (d, i) => i * 120 + 60)
       .attr('r', d => radiusScale(d.type))   
   circles.exit()
     .transition().duration(1000)
@@ -28,9 +29,12 @@ const render = (selection, {fruits}) => {
     .remove();
 }
 
-const makeFruit = type =>({type});
-const fruits = d3.range(5).map(() => makeFruit('apple'));
+const makeFruit = type =>({
+  type,
+  id: Math.random()
+});
 
+let fruits = d3.range(5).map(() => makeFruit('apple'));
 
 render(svg, {fruits});
 
@@ -43,6 +47,11 @@ setTimeout(() => {
   fruits[2].type = 'lemon';
   render(svg, {fruits});
 }, 2000);
+
+setTimeout(() => {
+  fruits = fruits.filter((d,i) => i !== 1)
+  render(svg, {fruits});
+}, 3000);
 
 
 
