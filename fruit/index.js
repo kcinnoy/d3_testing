@@ -22,7 +22,7 @@ const render = (selection, {fruits}) => {
       .attr('r', 0)
     .merge(circles)
       .attr('fill', d => colorScale(d.type))
-    .transition().duration(1000)
+    .transition().duration(1500)
       .attr('cx', xPosition)
       .attr('r', d => radiusScale(d.type))   
   circles.exit()
