@@ -16,15 +16,15 @@ const xPosition = (d, i) => i * 120 + 60
 const render = (selection, {fruits}) => {
 
   const groups = selection.selectAll('g').data(fruits, d => d.id);
-  groups.enter().append('g') 
-    .merge(groups)
+  const groupsEnter = groups.enter().append('g'); 
+    groupsEnter.merge(groups)
       .attr('transform', (d,i) => 
-        `translate(${xPosition}, ${height / 2})`);  
+        `translate(${i * 120 + 60}, ${height / 2})`);  
   groups.exit().remove();
 
 
-    const circles = selection.selectAll('circle').data(fruits, d => d.id);
-      circles.enter().append('circle') 
+    const circles = groups.select('circle');
+      groupsEnter.enter().append('circle') 
           .attr('cx', xPosition)    
           .attr('cy', height / 2)
           .attr('r', 0)
