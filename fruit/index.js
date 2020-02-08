@@ -23,17 +23,13 @@ const render = (selection, {fruits}) => {
   groups.exit().remove();
 
 
-    const circles = groups.select('circle');
       groupsEnter.append('circle') 
-          .attr('cx', xPosition)    
-          .attr('cy', 0)
           .attr('r', 0)
-        .merge(circles)
+        .merge(groups.select('circle'))
           .attr('fill', d => colorScale(d.type))
         .transition().duration(1500)
           .attr('cx', xPosition)
           .attr('r', d => radiusScale(d.type))   
-      circles.exit()
         .transition().duration(1000)
           .attr('r', 0)
         .remove();
