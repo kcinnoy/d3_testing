@@ -19,14 +19,14 @@ const render = (selection, {fruits}) => {
   const groupsEnter = groups.enter().append('g'); 
     groupsEnter.merge(groups)
       .attr('transform', (d,i) => 
-        `translate(${i * 120 + 60}, ${height / 2})`);  
+        `translate(${i * 120 + 60}, ${height / 4})`);  
   groups.exit().remove();
 
 
     const circles = groups.select('circle');
-      groupsEnter.enter().append('circle') 
+      groupsEnter.append('circle') 
           .attr('cx', xPosition)    
-          .attr('cy', height / 2)
+          .attr('cy', 0)
           .attr('r', 0)
         .merge(circles)
           .attr('fill', d => colorScale(d.type))
