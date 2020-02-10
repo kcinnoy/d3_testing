@@ -23,16 +23,19 @@ const render = (selection, {fruits}) => {
   groups.exit().remove();
 
 
-      groupsEnter.append('circle') 
-          .attr('r', 0)
-        .merge(groups.select('circle'))
-          .attr('fill', d => colorScale(d.type))
-        .transition().duration(1500)
-          .attr('cx', xPosition)
-          .attr('r', d => radiusScale(d.type))   
-        .transition().duration(1000)
-          .attr('r', 0)
-        .remove();
+  groupsEnter.append('circle') 
+    .merge(groups.select('circle'))
+      .attr('fill', d => colorScale(d.type))
+    .transition().duration(1500)
+      .attr('cx', xPosition)
+      .attr('r', d => radiusScale(d.type))  
+      
+  groupsEnter.append('text') 
+    .merge(groups.select('text'))
+      .text(d => d.type)
+    .transition().duration(1500)
+      .attr('x', xPosition)
+      .attr('y', 120)
 }
 
 const makeFruit = type =>({
