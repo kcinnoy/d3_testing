@@ -21,7 +21,8 @@ const render = (selection, {fruits}) => {
       .attr('y', 20)
       .attr('width', 920)
       .attr('height', 300)
-      .attr('rx', 300/2);
+      .attr('rx', 300/2)
+      .attr('fill', '#e5ddbc');
 
   const groups = selection.selectAll('g').data(fruits, d => d.id);
   const groupsEnter = groups.enter().append('g'); 
