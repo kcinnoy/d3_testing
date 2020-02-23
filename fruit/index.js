@@ -15,6 +15,14 @@ const xPosition = (d, i) => i * 120 + 60
 
 const render = (selection, {fruits}) => {
 
+  const bowl = selection.selectAll('rect')
+    .data([null])
+    .enter().append('rect')
+      .attr('y', 20)
+      .attr('width', 920)
+      .attr('height', 300)
+      .attr('rx', 300/2);
+
   const groups = selection.selectAll('g').data(fruits, d => d.id);
   const groupsEnter = groups.enter().append('g'); 
     groupsEnter.merge(groups)
