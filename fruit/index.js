@@ -20,7 +20,7 @@ const render = (selection, {fruits}) => {
     .enter().append('rect')
       .attr('y', 20)
       .attr('width', 920)
-      .attr('height', 300)
+      .attr('height', 350)
       .attr('rx', 300/2)
       .attr('fill', '#e5ddbc');
 
