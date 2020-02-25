@@ -35,6 +35,9 @@ const render = (selection, {fruits}) => {
   groupsEnter.append('circle') 
     .merge(groups.select('circle'))
       .attr('fill', d => colorScale(d.type))
+      .on('click', () => {
+        console.log('clicked');
+      })
     .transition().duration(1500)
       .attr('cx', xPosition)
       .attr('r', d => radiusScale(d.type))  
