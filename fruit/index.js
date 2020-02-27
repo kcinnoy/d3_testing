@@ -35,8 +35,8 @@ const render = (selection, {fruits}) => {
   groupsEnter.append('circle') 
     .merge(groups.select('circle'))
       .attr('fill', d => colorScale(d.type))
-      .on('click', () => {
-        console.log('clicked');
+      .on('click', d => {
+        console.log(d.id);
       })
     .transition().duration(1500)
       .attr('cx', xPosition)
@@ -56,6 +56,13 @@ const makeFruit = type =>({
 });
 
 let fruits = d3.range(5).map(() => makeFruit('apple'));
+
+let selectedFruit = null;
+
+const onClick = id => {
+  selectedFruit = id;
+  render()
+}
 
 render(svg, {fruits});
 
