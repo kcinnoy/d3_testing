@@ -13,6 +13,12 @@ const radiusScale = d3.scaleOrdinal()
 
 const xPosition = (d, i) => i * 120 + 60
 
+const onClick = id => {
+  selectedFruit = id;
+  console.log(id)
+  render()
+}
+
 const render = (selection, {fruits}) => {
 
   const bowl = selection.selectAll('rect')
@@ -58,10 +64,7 @@ let fruits = d3.range(5).map(() => makeFruit('apple'));
 
 let selectedFruit = null;
 
-const onClick = id => {
-  selectedFruit = id;
-  render()
-}
+
 
 render(svg, {fruits});
 
