@@ -16,7 +16,7 @@ const xPosition = (d, i) => i * 120 + 60
 const onClick = id => {
   selectedFruit = id;
   console.log(id)
-  render()
+  render(svg, {fruits})
 }
 
 const render = (selection, {fruits}) => {
