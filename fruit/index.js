@@ -41,6 +41,7 @@ const render = (selection, {fruits}) => {
   groupsEnter.append('circle') 
     .merge(groups.select('circle'))
       .attr('fill', d => colorScale(d.type))
+      .attr('stroke-width', 5)
       .attr('stroke', d => d.id === selectedFruit ? 'black' : 'none')
       .on('click', d => onClick(d.id))
     .transition().duration(1500)
