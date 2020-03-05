@@ -13,7 +13,7 @@ const radiusScale = d3.scaleOrdinal()
 
 const xPosition = (d, i) => i * 120 + 60
 
-const onClick = id => {
+const setSelected = id => {
   selectedFruit = id;
   console.log(id)
   render(svg, {fruits})
@@ -43,7 +43,9 @@ const render = (selection, {fruits}) => {
       .attr('fill', d => colorScale(d.type))
       .attr('stroke-width', 5)
       .attr('stroke', d => d.id === selectedFruit ? 'black' : 'none')
-      .on('click', d => onClick(d.id))
+      .on('mouseover', d => setSelected(d.id))
+      .on('mouseout', () => setSelected(null))
+      // .on('click', d => setSelected(d.id))
     .transition().duration(1500)
       .attr('cx', xPosition)
       .attr('r', d => radiusScale(d.type))  
