@@ -42,7 +42,7 @@ const render = (selection, {fruits}) => {
     .merge(groups.select('circle'))
       .attr('fill', d => colorScale(d.type))
       .attr('stroke-width', 5)
-      .attr('stroke', d => d.id === selectedFruit ? 'black' : 'none')
+      .attr('stroke', d => d.id === selectedFruit ? 'red' : 'none')
       .on('mouseover', d => setSelected(d.id))
       .on('mouseout', () => setSelected(null))
       // .on('click', d => setSelected(d.id))
