@@ -35,14 +35,22 @@ d3.csv("data.csv").then(function(data) {
 const xValue = d => d.date;
 const yValue = d => d.close
 
+const xScale = d3.scaleTime() 
+  .domain(d3.extent(data, xValue))
+  .range([0, chartWidth]);
+
+const yScale = d3.scaleLinear()
+  .domain([0, d3.max(data, yValue)])
+  .range([chartHeight, 0])
+
 // set the ranges
-let x = d3.scaleTime().range([0, chartWidth]);
-let y = d3.scaleLinear().range([chartHeight, 0]);
+// let x = d3.scaleTime().range([0, chartWidth]);
+// let y = d3.scaleLinear().range([chartHeight, 0]);
 
 
   // Scale the range of the data
-  x.domain(d3.extent(data, d =>  d.date));
-  y.domain([0, d3.max(data, d => d.close)]);
+  // x.domain(d3.extent(data, d =>  d.date));
+  // y.domain([0, d3.max(data, d => d.close)]);
 
 //------- Start drawing the Chart
 
@@ -52,8 +60,8 @@ const g = svg.append('g')
 
   // define the line
 let valueline = d3.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); });
+    .x(d => xScale(xValue(d)))
+    .y(d => yScale(yValue(d)));
 
   // Add the valueline path.
   g.append("path")
@@ -64,12 +72,12 @@ let valueline = d3.line()
   // Add the X Axis
   g.append("g")
       .attr("transform", "translate(0," + chartHeight + ")")
-      .call(d3.axisBottom(x)
+      .call(d3.axisBottom(xScale)
         .tickFormat(formatTime));
 
   // Add the Y Axis
   g.append("g")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(yScale));
 
 
 });
