@@ -25,11 +25,15 @@ let formatTime = d3.timeFormat('%d/%b/%y')
 // Get the data
 d3.csv("data.csv").then(function(data) {
   // format the data
-  data.forEach(function(d) {
+  data.forEach(d => {
       d.date = parseTime(d.date);
       d.close = +d.close;
-      console.log(d.date)
   });
+
+// ---------- Scales and Ranges
+
+const xValue = d => d.date;
+const yValue = d => d.close
 
 // set the ranges
 let x = d3.scaleTime().range([0, chartWidth]);
@@ -37,8 +41,8 @@ let y = d3.scaleLinear().range([chartHeight, 0]);
 
 
   // Scale the range of the data
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain([0, d3.max(data, function(d) { return d.close; })]);
+  x.domain(d3.extent(data, d =>  d.date));
+  y.domain([0, d3.max(data, d => d.close)]);
 
 //------- Start drawing the Chart
 
