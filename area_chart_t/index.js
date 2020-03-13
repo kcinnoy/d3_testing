@@ -57,10 +57,33 @@ const yScale = d3.scaleLinear()
 
 //------- Start drawing the Chart
 
-const g = svg.append('g')
-    .attr('transform', `translate(${margin.left }, ${margin.top})`);
+  const g = svg.append('g')
+      .attr('transform', `translate(${margin.left }, ${margin.top})`);
 
+  let xGridline = () => {return d3.axisBottom(xScale).ticks()};
+  let yGridline = () => {return d3.axisLeft(yScale).ticks(5)};
 
+  //define x gridlines 
+
+  svg.append('g')
+    .attr('class', 'grid')
+    .attr('transform', `translate(${margin.left}, ${chartHeight+margin.top})`)
+    .call(xGridline()
+      .tickSize(-chartHeight)
+      .tickFormat("")
+    )
+
+  //define y gridlines 
+
+  svg.append('g')
+    .attr('class', 'grid')
+    .attr('transform', `translate(${margin.left}, 0)`)
+    .call(yGridline()
+      .tickSize(-chartWidth)
+      .tickFormat("")
+    )
+  
+  // define the area 
   let valueArea = d3.area()
     .x(d => xScale(xValue(d)))
     .y0(chartHeight)
@@ -82,8 +105,6 @@ const g = svg.append('g')
       .data([data])
       .attr("class", "line")
       .attr("d", valueline);
-
-  
 
 
   // Add the X Axis
