@@ -7,10 +7,13 @@ const width = parseInt(getComputedStyle(chartSize).width);
 
 const svg = d3.select('#lineChart-1')
 
-const margin = {top: 20, right: 20, bottom: 30, left: 50},
+const margin = {top: 40, right: 20, bottom: 50, left: 50},
     chartHeight = height - margin.top - margin.bottom,
     chartWidth = width - margin.left - margin.right;
-   
+
+const xLabel = 'Time of Close';
+const yLabel = 'Value';
+const title = 'Line Chart Example';
 
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
@@ -71,7 +74,7 @@ let valueline = d3.line()
 
   // Add the X Axis
   g.append("g")
-      .attr("transform", "translate(0," + chartHeight + ")")
+      .attr('transform', `translate(0, ${chartHeight})`)
       .call(d3.axisBottom(xScale)
         .tickFormat(formatTime));
 
@@ -79,5 +82,32 @@ let valueline = d3.line()
   g.append("g")
       .call(d3.axisLeft(yScale));
 
+  // Add X label 
 
+  svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', height)
+    .attr('dy', '-0.5em')
+    .attr('class', 'title')
+    .attr('text-anchor', 'middle')
+    .text(xLabel)
+
+    // Add Y label 
+
+  svg.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('y', margin.left)
+    .attr('x', 0 - (height / 2))
+    .attr('dy', '-2em')
+    .attr('text-anchor', 'middle')
+    .text(yLabel)
+
+  // Title
+    
+  svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', margin.top / 2)
+    .attr('text-anchor', 'middle')
+    .text(title)
+      
 });
