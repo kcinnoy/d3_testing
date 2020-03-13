@@ -61,16 +61,30 @@ const g = svg.append('g')
     .attr('transform', `translate(${margin.left }, ${margin.top})`);
 
 
-  // define the line
-let valueline = d3.line()
+  let valueArea = d3.area()
     .x(d => xScale(xValue(d)))
-    .y(d => yScale(yValue(d)));
+    .y0(chartHeight)
+    .y1(d => yScale(yValue(d)))
 
-  // Add the valueline path.
+  // define the line
+  let valueline = d3.line()
+      .x(d => xScale(xValue(d)))
+      .y(d => yScale(yValue(d)));
+
+
+  g.append("path")
+    .data([data])
+    .attr("class", "area")
+    .attr("d", valueArea);
+
+  //Add the valueline path.
   g.append("path")
       .data([data])
       .attr("class", "line")
       .attr("d", valueline);
+
+  
+
 
   // Add the X Axis
   g.append("g")

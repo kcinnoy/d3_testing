@@ -4,6 +4,10 @@
   stroke-width: 2px;
 }
 
+.area {
+  fill: lightsteelblue;
+}
+
 .lineChart {
   height: 500px;
   width: 960px;
