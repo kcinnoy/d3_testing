@@ -89,7 +89,7 @@ d3.csv("earthquakes.csv").then(function(data) {
       .data(bins)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", 1)
+      .attr("x", 2)
       .attr("transform", function(d) {
 		  return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
       .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
