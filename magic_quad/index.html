@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+</style>
+
+<body>
+
+<!-- load the d3.js library -->    	
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+
+var data = [{
+  "name": "EmberJS",
+  "yearsinuse": 4,
+  "githubstars": 16,
+  "forked": 3.5
+}, {
+  "name": "AngularJS",
+  "manufacturer": "Internal Misuse",
+  "yearsinuse": 5,
+  "githubstars": 49,
+  "forked": 23.7
+}, {
+  "name": "React",
+  "manufacturer": "Hacking",
+  "yearsinuse": 3,
+  "githubstars": 42,
+  "forked": 7.1
+}, {
+  "name": "Backbone",
+  "manufacturer": "IP Loss",
+  "yearsinuse": 5,
+  "githubstars": 25,
+  "forked": 5.5
+}, {
+  "name": "Polymer",
+  "manufacturer": "Social",
+  "yearsinuse": 1,
+  "githubstars": 15,
+  "forked": 1.49
+}, {
+  "name": "KnockOut",
+  "manufacturer": "Security Leak",
+  "yearsinuse": 6,
+  "githubstars": 7.4,
+  "forked": 1.28
+}, {
+  "name": "Meteor",
+  "manufacturer": "PPI Loss",
+  "yearsinuse": 4,
+  "githubstars": 33.8,
+  "forked": 4.15
+}];
+
+var margins = {
+  "left": 50,
+  "right": 30,
+  "top": 30,
+  "bottom": 30
+};
+
+var width = 700;
+var height = 320;
+
+(function showScatterPlot(data) {
+
+  var svg = d3.select("#magicQuad").append("svg").attr("width", width).attr("height", height).append("g")
+    .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+  svg.append("rect")
+    .attr("width", width - (margins.right * 2) - 10)
+    .attr("height", height - (margins.bottom + margins.top))
+    .attr("fill", "white");
+
+  var x = d3.scaleLinear()
+    .domain([0, 7])
+    .range([0, width - margins.left - margins.right]);
+
+  var y = d3.scaleLinear()
+    .domain([0, 60])
+    .range([height - margins.top - margins.bottom, 0]);
+
+  svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + y.range()[0] + ")");
+  svg.append("g").attr("class", "y axis");
+
+  // x axis label
+  svg.append("text")
+    .attr("fill", "#414241")
+    .attr("text-anchor", "end")
+    .attr("x", width / 2)
+    .attr("y", height - 33)
+    .style("font-size", "16px")
+    .text("Years in use");
+
+  // y axis label
+  svg.append("text")
+    .attr("fill", "#414241")
+    .attr("text-anchor", "end")
+    .attr("x", (height / 2) - 20)
+    .attr("y", 33)
+    .style("font-size", "16px")
+    .attr("transform", "translate(-60,225) rotate(-90)")
+    .text("Github Stars");
+
+  var xAxis = d3.axisBottom(x).tickPadding(2);
+  var yAxis = d3.axisLeft(y).tickPadding(2).tickFormat(function(d) {
+    return d + "K";
+  });
+
+
+  svg.selectAll("g.y.axis").call(yAxis);
+  svg.selectAll("g.x.axis").call(xAxis);
+
+  svg.select(".x.axis")
+    .selectAll("text")
+    .attr("stroke-width", 1)
+    .style("font-family", "Helvetica Neue")
+    .style("font-size", "8px"); //To change the font size of texts
+
+  svg.select(".y.axis")
+    .selectAll("text")
+    .style("font-family", "Helvetica Neue")
+    .style("font-size", "8px");
+
+  svg.append("line")
+    .attr("x1", 0)
+    .attr("y1", 0)
+    .attr("x2", width - (margins.left + margins.right))
+    .attr("y2", 0)
+    .attr("stroke-width", 1)
+    .attr("stroke", "gray");
+
+  svg.append("line")
+    .attr("x1", width - (margins.left + margins.right))
+    .attr("y1", 0)
+    .attr("x2", width - (margins.left + margins.right))
+    .attr("y2", height - 60)
+    .attr("stroke-width", 1)
+    .attr("stroke", "gray");
+
+  svg.append("line")
+    .attr("x1", 0)
+    .attr("y1", height / 2 - 30)
+    .attr("x2", width - (margins.left + margins.right))
+    .attr("y2", height / 2 - 30)
+    .attr("stroke-width", 1)
+    .attr("stroke", "gray");
+
+  svg.append("line")
+    .attr("x1", width / 2 - 40)
+    .attr("y1", 0)
+    .attr("x2", width / 2 - 40)
+    .attr("y2", height - 60)
+    .attr("stroke-width", 1)
+    .attr("stroke", "gray");
+
+
+  var item = svg.selectAll("g.node").data(data, function(d) {
+    return d.name;
+  });
+
+
+  var itemGroup = item.enter().append("g").attr("class", "node")
+    .attr('transform', function(d) {
+      return "translate(" + x(d.yearsinuse) + "," + y(d.githubstars) + ")";
+    });
+
+  // we add our first graphics element! A circle!
+  itemGroup.append("circle")
+    .attr("r", function(d) {
+      return d.forked * 1.5;
+    })
+    .attr("class", "dot")
+    .style("stroke-width", 1)
+    .style("stroke", "#979797")
+    .style("fill", "#D1C4E9");
+
+  // now we add some text, so we can see what each item is.
+  itemGroup.append("text")
+    .style("text-anchor", "middle")
+    .style("fill", "black")
+    .style("font-size", "14px")
+    .attr("dy", -13)
+    .text(function(d) {
+      return d.name;
+    });
+
+  //Q1 text - Monitor
+  svg.append("text")
+    .attr("fill", "#666666")
+    .attr("text-anchor", "end")
+    .attr("x", width / 2 / 2)
+    .attr("y", 18)
+    // .style("font-weight", "bold")
+    .style("font-size", "20px")
+    .text("In Fashion");
+
+  //Q2 text - Respond
+  svg.append("text")
+    .attr("fill", "#666666")
+    .attr("text-anchor", "end")
+    .attr("x", width / 2 + width / 2 / 2)
+    .attr("y", 18)
+    // .style("font-weight", "bold")
+    .style("font-size", "20px")
+    .text("Rock Stars");
+
+  //Q3 text - Respond
+  svg.append("text")
+    .attr("fill", "#666666")
+    .attr("text-anchor", "end")
+    .attr("x", width / 2 + width / 2 / 2)
+    .attr("y", height / 2 - 12)
+    // .style("font-weight", "bold")
+    .style("font-size", "20px")
+    .text("Seasoned");
+
+  //Q4 text - Respond
+  svg.append("text")
+    .attr("fill", "#666666")
+    .attr("text-anchor", "end")
+    .attr("x", width / 2 / 2)
+    .attr("y", height / 2 - 12)
+    // .style("font-weight", "bold")
+    .style("font-size", "20px")
+    .text("Promising");
+}(data));
+
+
+
+
+
+</script>
+</body>
