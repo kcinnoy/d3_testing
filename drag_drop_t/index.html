@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<link rel="stylesheet" href="style.css">
-<script src="https://d3js.org/d3.v5.min.js"></script>
+<!-- <link rel="stylesheet" href="style.css"> -->
+
 
 <body>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
 
     <svg id="dragdrop" width="600" height="200">
         <circle cx="100" cy="100" r="20" fill="red"/>
@@ -12,30 +14,54 @@
     </svg>  
 
     <script>
-       function makeDragDrop() {
-         var widget = undefined, color = undefined
+      //  function makeDragDrop() {
+      //    var widget = undefined, color = undefined;
 
-         var drag = d3.drag()
-          .on( "start", function() {
-            color = d3.select(this)
-              .attr("fill");
-            widget = d3.select(this)
-              .attr("fill", "lime")
-          })
-          .on("drag", function() {
-            var pt = d3.mouse(d3.select(this).node());
-            widget
-              .attr("cx",pt[0])
-              .attr("cy", pt[1]);
-          })
-          .on("end", function() {
-            widget
-              .attr("fill", color);
-            widget = undefined;
-          });
+      //    var drag = d3.drag()
+      //     .on( "start", function() {
+      //       color = d3.select(this)
+      //         .attr("fill");
+      //       widget = d3.select(this)
+      //         .attr("fill", "lime");
+      //     })
+      //     .on("drag", function() {
+      //       var pt = d3.mouse(d3.select(this).node());
+      //       widget
+      //         .attr("cx",pt[0])
+      //         .attr("cy", pt[1]);
+      //     })
+      //     .on("end", function() {
+      //       widget
+      //         .attr("fill", color);
+      //       widget = undefined;
+      //     });
 
-          drag(d3.select("#dragdrop").selectAll("circle"));
-       }
+      //     drag(d3.select("#dragdrop").selectAll("circle"));
+      //  }
+
+       window.addEventListener( "click", makeDragDrop );
+        function makeDragDrop() {
+            var widget = undefined, color = undefined;
+
+            var drag = d3.drag()                                          //<1>
+                .on( "start", function() {                                //<2>
+                    color = d3.select( this ).attr( "fill" );
+                    widget = d3.select( this ).attr( "fill", "lime" );
+                } )
+                .on( "drag", function() {                                 //<3>
+                    var pt = d3.mouse( d3.select( this ).node() );
+                    widget.attr( "cx", pt[0] ).attr( "cy", pt[1] );
+                } )
+                .on( "end", function() {                                  //<4>
+                    widget.attr( "fill", color );
+                    widget = undefined;
+                } );
+
+            drag( d3.select( "#dragdrop" ).selectAll( "circle" ) );       //<5>
+        }
+
+
+
     </script>
 
 </body>
