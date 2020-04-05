@@ -39,27 +39,45 @@
       //     drag(d3.select("#dragdrop").selectAll("circle"));
       //  }
 
-       window.addEventListener( "click", makeDragDrop );
-        function makeDragDrop() {
-            var widget = undefined, color = undefined;
+      //  window.addEventListener( "click", makeDragDrop );
+        // function makeDragDrop() {
+        //     var widget = undefined, color = undefined;
 
-            var drag = d3.drag()                                          //<1>
-                .on( "start", function() {                                //<2>
-                    color = d3.select( this ).attr( "fill" );
-                    widget = d3.select( this ).attr( "fill", "lime" );
-                } )
-                .on( "drag", function() {                                 //<3>
-                    var pt = d3.mouse( d3.select( this ).node() );
-                    widget.attr( "cx", pt[0] ).attr( "cy", pt[1] );
-                } )
-                .on( "end", function() {                                  //<4>
-                    widget.attr( "fill", color );
-                    widget = undefined;
-                } );
+        //     var drag = d3.drag()                                          //<1>
+        //         .on( "start", function() {                                //<2>
+        //             color = d3.select( this ).attr( "fill" );
+        //             widget = d3.select( this ).attr( "fill", "lime" );
+                    
+        //         } )
+        //         .on( "drag", function() {                                 //<3>
+        //             var pt = d3.mouse( d3.select( this ).node() );
+        //             widget.attr( "cx", pt[0] ).attr( "cy", pt[1] );
+        //         } )
+        //         .on( "end", function() {                                  //<4>
+        //             widget.attr( "fill", color );
+        //             widget = undefined;
+        //         } );
 
-            drag( d3.select( "#dragdrop" ).selectAll( "circle" ) );       //<5>
-        }
-
+        //     drag( d3.select( "#dragdrop" ).selectAll( "circle" ) );       //<5>
+        // }
+        // function makeDragDrop() {
+          d3.select( "#dragdrop" ).selectAll( "circle" )
+            .call(d3.drag()
+              .on( "start", function() {                                //<2>
+                  color = d3.select( this ).attr( "fill" );
+                  widget = d3.select( this ).attr( "fill", "lime" );
+                  
+              } )
+              .on( "drag", function() {                                 //<3>
+                  var pt = d3.mouse( d3.select( this ).node() );
+                  widget.attr( "cx", pt[0] ).attr( "cy", pt[1] );
+              } )
+              .on( "end", function() {                                  //<4>
+                  widget.attr( "fill", color );
+                  widget = undefined;
+              } )
+            );
+        // };
 
 
     </script>
