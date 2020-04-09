@@ -27,6 +27,7 @@
 <!-- load the d3.js library -->    	
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
+  //create symbol -method 1
   <svg id="usedefs" width="275" height="100">
     <defs>
       <g id="crosshair">
@@ -38,6 +39,18 @@
       </g>
     </defs>
   </svg>
+
+  function makeCroshair() {
+    var data = [[180,1], [260,3], [340,2], [420,4]]
+
+    d3.select("#usedefs").selectAll("use")
+      .data(data).enter().append("use")
+      .attr("href", "#crosshair")
+      .attr("trasform", d => 
+        `translate(${d[0]},50) scale(${2*d[1]})`)
+      .attr("stroke", "black")
+      .attr("stroke-width", d =>0.5/Math.sqrt(d[1]));
+  }
         
 </script>
 </body>
