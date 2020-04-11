@@ -52,7 +52,7 @@
       .data(data).enter().append("use")
       .attr("href", "#crosshair")
       .attr("transform", d => 
-        `translate(${d[0]},50) scale(${2*d[1]})`)
+        `translate(${d[0]},40) scale(${2*d[1]})`)
         // "translate("+d[0]+", 50) scale("+2*d[1]+")")
       .attr("stroke", "black")
       .attr("stroke-width", d =>0.5/Math.sqrt(d[1]));
