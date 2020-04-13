@@ -15,7 +15,9 @@
   window.addEventListener( "load", makeLines );
     function makeLines() {
     //markers
-      var markers = [{d="M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM3 16c0-7.18 5.82-13 13-13 3.424 0 6.538 1.325 8.86 3.488l-12.86 5.512-5.512 12.86c-2.164-2.322-3.488-5.436-3.488-8.86zM18.286 18.286l-8.003 3.43 3.43-8.003 4.573 4.573zM16 29c-3.424 0-6.539-1.325-8.86-3.488l12.86-5.512 5.512-12.86c2.164 2.322 3.488 5.436 3.488 8.86 0 7.18-5.82 13-13 13z"
+      var markers = [{
+        stroke: "rgba(0,0,0,.4)",
+        d:"M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM3 16c0-7.18 5.82-13 13-13 3.424 0 6.538 1.325 8.86 3.488l-12.86 5.512-5.512 12.86c-2.164-2.322-3.488-5.436-3.488-8.86zM18.286 18.286l-8.003 3.43 3.43-8.003 4.573 4.573zM16 29c-3.424 0-6.539-1.325-8.86-3.488l12.86-5.512 5.512-12.86c2.164 2.322 3.488 5.436 3.488 8.86 0 7.18-5.82 13-13 13z"
       }];
 
     // Prepare a data set and scale it properly for plotting
@@ -26,9 +28,13 @@
       ds = ds.map( d => [xSc(d[0]), ySc(d[1])] );                   //<1>
 
       // Draw circles for the individual data points          
-      d3.select( "#lines" ).append( "g" ).selectAll( "circle" )     //<2>
-          .data( ds ).enter().append( "circle" ).attr( "r", 3 )
-          .attr( "cx", d=>d[0] ).attr( "cy", d=>d[1] );
+      d3.select( "#lines" ).append( "g" ).selectAll( "compass" )     //<2>
+          .data( ds ).enter().append( "path" )
+          .attr( "class", "compass" )
+          .attr("d", markers[0].d)
+          .style("stroke", markers[0].stroke)
+          // .style("fill", markers[0].fill)
+          .attr("transform", d => `translate(${d[0]-10}, ${d[1]-5}) scale(0.5)` )
       
       // Generate a line
       var lnMkr = d3.line();                                        //<3>
